@@ -48,7 +48,7 @@ public class MainActivity extends Login {
         getPermissionCamera();
         back = findViewById(R.id.button5);
         surfaceView=(SurfaceView)findViewById(R.id.surface_view);
-
+        textView = findViewById(R.id.textView2);
         shoppingcart = findViewById(R.id.shoppingcart);
 
         barcodeDetector = new BarcodeDetector.Builder(this)
@@ -92,11 +92,12 @@ public class MainActivity extends Login {
                     textView.post(new Runnable() {
                         @Override
                         public void run() {
+                            textView.setText(qrCodes.valueAt(0).displayValue);
                             String[] column = new String[1];
                             column[0] = "title";
                             String[] title = new String[1];
                             title[0] = qrCodes.valueAt(0).displayValue;
-                            PutData putData = new PutData("http://706d-2001-b400-e203-5338-a9b9-fae2-109f-3488.ngrok.io/androidtest/searchproduct.php", "POST", column, title);
+                            PutData putData = new PutData("http://2e5a-2001-b400-e203-5338-990d-a2e7-d84-4935.ngrok.io/androidtest/searchproduct.php", "GET", column, title);
                             if (putData.startPut()) {
                                 if (putData.onComplete()) {
                                     String result = putData.getResult();
@@ -114,6 +115,7 @@ public class MainActivity extends Login {
                                             shoppinglist.add(title[0]);
                                             price.add(result);
                                             cart.add(title[0]+"\t\t\t\t"+result);
+                                            dialog.dismiss();
                                         }
 
                                     }));
